@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Inject, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/auth/AuthService";
@@ -20,6 +20,10 @@ export class AuthGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest();
     const accessToken = request.headers['authorization'];
+
+    if (!accessToken) {
+      throw new UnauthorizedException()
+    }
     const user = await this.authService.validateAuthToken(accessToken);
     const autherities = user.authorities;
     return this.matchRoles(roles, autherities);
@@ -30,7 +34,7 @@ export class AuthGuard implements CanActivate {
       const filterAuthority = incomingRoles.filter((authority) => {
         return authority.authority == role
       })
-      return filterAuthority.length> 0 ? true : false;
+      return filterAuthority.length > 0 ? true : false;
     })
 
     return isRolePresent;
