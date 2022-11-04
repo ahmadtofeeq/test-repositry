@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './AppModule';
 import { AllExceptionsFilter } from './exceptions/AllExceptionsFilter';
-import { AuthGuard } from './guard/AuthGuard';
 
 interface EnvironmentConfig {
   port: number;

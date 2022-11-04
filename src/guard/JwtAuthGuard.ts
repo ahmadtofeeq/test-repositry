@@ -1,17 +1,18 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { Observable } from "rxjs";
+import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "src/auth/AuthService";
 import { Authority } from "src/models/auth/Authority";
-import { User } from "src/models/auth/User";
 
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class JwtAuthGuard extends AuthGuard('jwt') {
 
   @Inject()
   private authService: AuthService;
-  constructor(private reflector: Reflector) { }
+  constructor(private reflector: Reflector) {
+    super()
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
@@ -24,20 +25,16 @@ export class AuthGuard implements CanActivate {
     if (!accessToken) {
       throw new UnauthorizedException()
     }
-    const user = await this.authService.validateAuthToken(accessToken);
-    const autherities = user.authorities;
-    return this.matchRoles(roles, autherities);
+    const verifiedToken = await this.authService.validateAuthToken(accessToken);
+    return this.matchRoles(roles, verifiedToken.role, accessToken);
   }
 
-  async matchRoles(roels: string[], incomingRoles: Authority[]): Promise<boolean> {
-    const isRolePresent = roels.some((role, index) => {
-      const filterAuthority = incomingRoles.filter((authority) => {
-        return authority.authority == role
-      })
-      return filterAuthority.length > 0 ? true : false;
-    })
+  async matchRoles(roles: string[], role: string, verifiedToken: any): Promise<boolean> {
+    if (roles.includes(role)) {
+      return verifiedToken;
+    }
 
-    return isRolePresent;
+    return false;
   }
 
 }

@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { User } from 'src/models/auth/User';
+import { UserInfo } from 'src/models/user/UserInfo';
 
 interface NovaAuthConfig {
     host: string;
     meApi: string;
-    client_id: string;
-    client_secret: string;
+    updateUserInfo: string;
 }
 
 @Injectable()
@@ -39,5 +39,19 @@ export class HttpService {
     }
 
 
+    async updateUserInfo(bearer: string, userInfo: UserInfo, userId: string): Promise<UserInfo> {
+        try {
+            const response = await this.axiosInstance.post(this.azureConfig.updateUserInfo.replace('{user_id}', userId), // TODO find a better way
+                { headers: { "Authorization": `${bearer}` }, data: userInfo })
+            const resUserInfo: UserInfo = response.data
+            return resUserInfo;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('handleAxiosError(error)' + error);
+            } else {
+                console.log('handleUnexpectedError(error)' + error);
+            }
+        }
+    }
 
 }
