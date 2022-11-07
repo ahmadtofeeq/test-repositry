@@ -17,8 +17,6 @@ async function bootstrap() {
     whitelist: true
   }))
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
-  const configService = app.get(ConfigService)
-  const envConfig = configService.get<EnvironmentConfig>('envConfig')
   await app.listen(envConfig.port);
 }
 bootstrap();

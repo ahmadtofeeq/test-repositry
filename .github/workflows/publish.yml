@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches:
-      - feature-1
+      - kafka-test
 
 jobs:
   build:
