@@ -1,7 +1,7 @@
 import {ProducerService} from './kafka/ProducerService';
-import {KafkaModule} from './kafka/kafka.module';
 import {ConsumerService} from './kafka/ConsumerService';
-import {KafkaConstants} from './kafka/KafkaConstants';
-import {KafkaConsumer} from './kafka/KafkaConsumer';
+import {KafkaTopics} from './kafka/KafkaTopics';
+import {ConnectorConfig} from './kafka/interfaces/ConnectorConfig';
 
-export {ConsumerService, ProducerService, KafkaConstants, KafkaConsumer, KafkaModule}
+export {ConsumerService, ProducerService, KafkaTopics, ConnectorConfig}
+

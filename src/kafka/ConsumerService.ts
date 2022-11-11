@@ -1,24 +1,29 @@
-import { Injectable, OnModuleInit , OnApplicationShutdown} from '@nestjs/common';
+import { Injectable, OnModuleInit, OnApplicationShutdown } from '@nestjs/common';
 import { Kafka, Consumer, ConsumerSubscribeTopic, ConsumerRunConfig } from 'kafkajs';
-import { KafkaConstants } from './KafkaConstants';
+import { ConnectorConfig } from './interfaces/ConnectorConfig';
+import { KafkaLifeCycle } from './interfaces/KafkaLifeCycle';
+import { KafkaTopics } from './KafkaTopics';
 
-@Injectable()
-export class ConsumerService implements OnApplicationShutdown{
+export class ConsumerService implements KafkaLifeCycle {
     
-    async onApplicationShutdown(signal?: string) {
-        for (const consumer of this.consumers){
+    async shutDown() {
+        for (const consumer of this.consumers) {
             await consumer.disconnect();
         }
     }
 
-    private readonly kafka = new Kafka({
-        brokers: ['localhost:29092']
-    });
-    private readonly consumers: Consumer []=[];
-    
+    async start(connectorConfig: ConnectorConfig) {
+        this.kafka = new Kafka({
+            brokers: [`${connectorConfig.host}:${connectorConfig.port}`]
+        });
+    }
 
-    async consume(topic: ConsumerSubscribeTopic, config: ConsumerRunConfig){
-        const consumer = this.kafka.consumer({groupId:KafkaConstants.topicGlobalService})
+    private kafka: Kafka;
+    private readonly consumers: Consumer[] = [];
+
+
+    async consume(topic: ConsumerSubscribeTopic, config: ConsumerRunConfig) {
+        const consumer = this.kafka.consumer({ groupId: topic.topic as string })
         await consumer.connect();
         await consumer.subscribe(topic)
         await consumer.run(config);
