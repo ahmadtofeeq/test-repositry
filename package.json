@@ -1,11 +1,11 @@
 {
   "name": "kafka-connector",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A kafka connector built on top of kafkajs",
   "author": "Tofeeq Ahmad",
   "license": "UNLICENSED",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index",
+  "types": "dist/index",
   "files": [
     "dist",
     "src"
@@ -13,7 +13,7 @@
 
   "scripts": {
     "clean": "npx rimraf ./dist",
-    "build": "npm run clean && npx tsc",
+    "build": "npm run clean && npx tsc"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.6",
