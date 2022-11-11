@@ -1,19 +1,20 @@
 {
   "name": "kafka-connector",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A kafka connector built on top of kafkajs",
   "author": "Tofeeq Ahmad",
   "license": "UNLICENSED",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "/dist",
-    "/src"
+    "dist",
+    "src"
   ],
 
   "scripts": {
     "clean": "npx rimraf ./dist",
-    "build": "npm run clean && npx tsc"
+    "build": "npm run clean && npx tsc",
+    "publish": "git add . && git commit -m \"(edit) changes in configurations\" && git push origin kafka-test"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.6",

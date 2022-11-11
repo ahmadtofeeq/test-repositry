@@ -1,7 +1,7 @@
-export * from './kafka/ConsumerService';
-export * from './kafka/ProducerService';
+import {ProducerService} from './kafka/ProducerService';
+import {KafkaModule} from './kafka/kafka.module';
+import {ConsumerService} from './kafka/ConsumerService';
+import {KafkaConstants} from './kafka/KafkaConstants';
+import {KafkaConsumer} from './kafka/KafkaConsumer';
 
-export * from './kafka/KafkaConstants';
-export * from './kafka/KafkaConsumer';
-export * from './kafka/kafka.module';
-
+export {ConsumerService, ProducerService, KafkaConstants, KafkaConsumer, KafkaModule}
