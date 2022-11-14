@@ -1,8 +1,6 @@
-import { Injectable, OnModuleInit, OnApplicationShutdown } from '@nestjs/common';
 import { Kafka, Consumer, ConsumerSubscribeTopic, ConsumerRunConfig } from 'kafkajs';
 import { ConnectorConfig } from './interfaces/ConnectorConfig';
 import { KafkaLifeCycle } from './interfaces/KafkaLifeCycle';
-import { KafkaTopics } from './KafkaTopics';
 
 export class ConsumerService implements KafkaLifeCycle {
     
