@@ -1,9 +1,16 @@
+import { injectable } from 'inversify';
 import { Kafka, Consumer, ConsumerSubscribeTopic, ConsumerRunConfig } from 'kafkajs';
 import { ConnectorConfig } from './interfaces/ConnectorConfig';
-import { KafkaLifeCycle } from './interfaces/KafkaLifeCycle';
+import { ConsumerLifeCycle } from './interfaces/ConsumerLifeCycle';
+import { KafkaManager } from './KafkaManager';
 
-export class ConsumerService implements KafkaLifeCycle {
+@injectable()
+export class ConsumerService implements ConsumerLifeCycle {
     
+    constructor() {
+
+    }
+
     async shutDown() {
         for (const consumer of this.consumers) {
             await consumer.disconnect();

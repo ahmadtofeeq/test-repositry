@@ -1,10 +1,15 @@
 
+import { injectable } from 'inversify';
 import { Kafka, Producer, ProducerRecord } from 'kafkajs';
 import { ConnectorConfig } from './interfaces/ConnectorConfig';
-import { KafkaLifeCycle } from './interfaces/KafkaLifeCycle';
+import { ProducerLifeCycle } from './interfaces/ProducerLifeCycle';
 
-export class ProducerService implements KafkaLifeCycle {
+@injectable()
+export class ProducerService implements ProducerLifeCycle {
 
+    constructor() {
+
+    }
     async shutDown() {
         await this.producer.disconnect()
     }

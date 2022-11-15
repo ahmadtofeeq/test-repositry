@@ -1,7 +1,8 @@
+import { ProducerRecord } from "kafkajs";
 import { ConnectorConfig } from "./ConnectorConfig";
 
 
-export interface KafkaLifeCycle {
+export interface LifeCycle {
     shutDown();
     start(connectorConfig: ConnectorConfig);
 }
